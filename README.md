@@ -1,16 +1,12 @@
 # aircover_take_home
 
-A new Flutter project.
+## Architecture
+Bloc architecture is used for aircover_take_home. Bloc architecture separates the view (main_page.dart) from the business logic (model/letter_creator.dart) through a bloc class (bloc/letter_bloc.dart) that is inherited in child widgets through a provider pattern. A stream and function call to update the printed letters is exposed to the view by the bloc, and by using a StreamBuilder widget, only the text widget is rebuilt on each update call. This is done without any handlers or calls to setState() in the view class.
 
-## Getting Started
+Fonts and icons are in the top level assets/ folder.
 
-This project is a starting point for a Flutter application.
+## Deployment
+To deploy aircover_take_home, run the command "flutter build web", and host the contents of build/web/ on the platform of your choice.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Dev
+To run in debug mode, run the command "flutter run -d chrome". You can hot restart with "r" in the terminal.
