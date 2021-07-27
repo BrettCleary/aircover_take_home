@@ -16,6 +16,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   TextEditingController _textHeightController = new TextEditingController();
+  ScrollController _scrollController = new ScrollController();
 
   String _validator(String? value) {
     var heightParse = int.tryParse(value ?? '-1');
@@ -122,13 +123,19 @@ class _MainPageState extends State<MainPage> {
                       stream: letterBloc.letterTextStream,
                       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                         //rebuild AC letters only
-                        return Text(
-                          snapshot.data ?? '',
-                          style: TextStyle(
-                              fontFamily: 'CourierPrime',
-                              letterSpacing: 0,
-                              fontFeatures: [FontFeature.tabularFigures()]),
-                        );
+                        return Scrollbar(
+                            controller: _scrollController,
+                            isAlwaysShown: true,
+                            child: SingleChildScrollView(
+                                controller: _scrollController,
+                                scrollDirection: Axis.horizontal,
+                                child: Text(
+                                  snapshot.data ?? '',
+                                  style: TextStyle(
+                                      fontFamily: 'CourierPrime',
+                                      letterSpacing: 0,
+                                      fontFeatures: [FontFeature.tabularFigures()]),
+                                )));
                       })),
             ])));
   }
