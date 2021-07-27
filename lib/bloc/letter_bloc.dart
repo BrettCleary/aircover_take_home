@@ -8,11 +8,12 @@ class LetterBloc implements Bloc {
   final StreamController<String> _letterTextController = StreamController<String>.broadcast();
   Stream<String> get letterTextStream => _letterTextController.stream;
 
-  LetterBloc(this._letterCreator);
+  LetterBloc(this._letterCreator){
+    _letterCreator.letterTextStream.listen(letterTextUpdatedHandler);
+  }
 
   void updateLetter(int height) {
     _letterCreator.updateLetterText(height);
-    _letterCreator.letterTextStream.listen(letterTextUpdatedHandler);
   }
 
   void letterTextUpdatedHandler(String letterText) {

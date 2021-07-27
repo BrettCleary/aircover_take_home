@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:aircover_take_home/bloc/bloc_provider.dart';
 import 'package:aircover_take_home/bloc/letter_bloc.dart';
+import 'package:aircover_take_home/helpers/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -15,63 +16,103 @@ class _MainPageState extends State<MainPage> {
   TextEditingController _textHeightController = new TextEditingController();
 
   String _validator(String? value) {
-    print('validating: $value');
+    var heightParse = int.tryParse(value ?? '-1');
+    int height = heightParse ?? -1;
+    if (heightParse == null || height < 0) {
+      return 'please enter a positive integer';
+    } else if (height > 400) {
+      return 'please enter a height less than 400';
+    }
     return '';
   }
 
   void _onHeightSubmitted(String? value) {
-    print('submitted: $value');
-    int height = int.tryParse(value ?? '-1') ?? -1;
-    if (height < 0) {
+    if (_validator(value) != '') {
       return;
     }
+    int height = int.tryParse(value ?? '-1') ?? 0;
     LetterBloc letterBloc = BlocProvider.of<LetterBloc>(context);
     letterBloc.updateLetter(height);
   }
 
-  void _updateHeightTest() {
-    LetterBloc letterBloc = BlocProvider.of<LetterBloc>(context);
-    letterBloc.updateLetter(10);
+  void _onUpdateHeightClick() {
+    _onHeightSubmitted(_textHeightController.text);
   }
 
   @override
   Widget build(BuildContext context) {
     LetterBloc letterBloc = BlocProvider.of<LetterBloc>(context);
+    double logoHeight = 100;
+    double logoWidth = 1032 / 140 * logoHeight;
     return Container(
         color: Color(0xFF0C1947),
         alignment: Alignment.center,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+        child: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
               Container(
-                  child: Text('aircover',
-                      style: TextStyle(fontSize: 200, color: Colors.white))),
-              Container(
-                  child: Text('How tall would you like your AC to be?',
-                      style: TextStyle(fontSize: 40, color: Colors.white))),
-              Container(
-                  decoration: BoxDecoration(
+                margin: EdgeInsets.all(30),
+                child: Container(
+                    width: logoWidth,
+                    color: Colors.transparent,
+                    child: Icon(
+                      MyFlutterApp.aircover_logo_horizontal_light,
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(200)),
-                  constraints: BoxConstraints(maxWidth: 200),
+                      size: logoHeight,
+                    )),
+                alignment: Alignment.center,
+              ),
+              Container(
+                  margin: EdgeInsets.all(20),
+                  child: Text('How many characters tall would you like your AC to be?',
+                      style: TextStyle(fontSize: 30, color: Colors.white))),
+              Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.all(20),
+                  padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(200)),
+                  constraints: BoxConstraints(maxWidth: 300),
                   child: TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                        counterText: '',
+                        enabledBorder: InputBorder.none,
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                        focusedBorder: InputBorder.none,
+                        isCollapsed: true,
+                        labelText: '',
+                        labelStyle: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold)),
                     controller: _textHeightController,
                     maxLength: 10,
                     validator: _validator,
                     onFieldSubmitted: _onHeightSubmitted,
                   )),
-              TextButton(
-                  onPressed: _updateHeightTest, child: Text('Update Text')),
               Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(200)),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(40)),
+                  child: TextButton(
+                      style: ButtonStyle(//overlayColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40), side: BorderSide(color: Colors.transparent)))),
+                      onPressed: _onUpdateHeightClick,
+                      child: Container(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            'Update Text',
+                            style: TextStyle(
+                                fontSize: 30, color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
+                          )))),
+              Container(
+                  margin: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(40),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(40)),
                   child: StreamBuilder(
                       stream: letterBloc.letterTextStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
+                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                         //rebuild AC letters only
                         return Text(
                           snapshot.data ?? '',
@@ -81,6 +122,6 @@ class _MainPageState extends State<MainPage> {
                               fontFeatures: [FontFeature.tabularFigures()]),
                         );
                       })),
-            ]));
+            ])));
   }
 }
