@@ -1,9 +1,12 @@
 import 'dart:async';
 
+//LetterCreator is the business logic for building the AC
+//LetterCreator updates AC by adding a string to letterTextStream
 class LetterCreator {
   final StreamController<String> _letterTextController = StreamController<String>.broadcast();
   Stream<String> get letterTextStream => _letterTextController.stream;
 
+  //write letters into string buffer and add to stream as string after
   void updateLetterText(int height) {
     StringBuffer letterText = new StringBuffer();
 
@@ -25,6 +28,7 @@ class LetterCreator {
     _letterTextController.add(letterText.toString());
   }
 
+  //write one row of C letters
   void writeCLetters(int rowIndex, int height, int width, StringBuffer letterText) {
     int letterCWidth = height + width;
     int startCIndex = 0;
@@ -52,6 +56,7 @@ class LetterCreator {
     }
   }
 
+  //write one row of A letters
   void writeALetters(int rowIndex, int width, int height, int letterAWidth, int crossHeightIndex, StringBuffer letterText) {
     int aForwardStart = rowIndex;
     int aForwardEnd = aForwardStart + width;

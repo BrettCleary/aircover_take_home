@@ -5,6 +5,8 @@ import 'package:aircover_take_home/bloc/letter_bloc.dart';
 import 'package:aircover_take_home/helpers/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
 
+//MainPage is the view for the main page of the website
+//MainPage interacts with the business logic through the inherited bloc provider widget
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -52,6 +54,7 @@ class _MainPageState extends State<MainPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+              //Logo
               Container(
                 margin: EdgeInsets.all(30),
                 child: Container(
@@ -64,10 +67,12 @@ class _MainPageState extends State<MainPage> {
                     )),
                 alignment: Alignment.center,
               ),
+              //Question prompt for user
               Container(
                   margin: EdgeInsets.all(20),
                   child: Text('How many characters tall would you like your AC to be?',
                       style: TextStyle(fontSize: 30, color: Colors.white))),
+              //Text input
               Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.all(20),
@@ -92,10 +97,12 @@ class _MainPageState extends State<MainPage> {
                     validator: _validator,
                     onFieldSubmitted: _onHeightSubmitted,
                   )),
+              //Update Text Button
               Container(
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(40)),
                   child: TextButton(
-                      style: ButtonStyle(//overlayColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+                      style: ButtonStyle(
+                          //overlayColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40), side: BorderSide(color: Colors.transparent)))),
                       onPressed: _onUpdateHeightClick,
@@ -106,6 +113,7 @@ class _MainPageState extends State<MainPage> {
                             style: TextStyle(
                                 fontSize: 30, color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
                           )))),
+              //AC Letter Display
               Container(
                   margin: EdgeInsets.all(20),
                   padding: EdgeInsets.all(40),

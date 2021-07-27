@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:aircover_take_home/bloc/bloc.dart';
 
+//BlocProvider provides Bloc derived classes to their descendants
 class BlocProvider<T extends Bloc> extends StatefulWidget {
   final Widget child;
   final T bloc;
