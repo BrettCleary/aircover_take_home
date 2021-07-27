@@ -21,8 +21,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'AirCover Technical Project',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: BlocProvider<LetterBloc>(bloc: _letterBloc, child: Material(child: MainPage())));
+            primarySwatch: Colors.blue,
+            fontFamily: 'Inter',
+            primaryColor: Color(0xFF0C1947)),
+        home: BlocProvider<LetterBloc>(
+            bloc: _letterBloc, child: Material(child: MainPage())));
   }
 }

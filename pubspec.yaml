@@ -48,3 +48,10 @@ flutter:
     - family: CourierPrime
       fonts:
         - asset: assets/fonts/CourierPrime/CourierPrime-Regular.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter/static/Inter-Regular.ttf
+        - asset: assets/fonts/Inter/static/Inter-Bold.ttf
+          weight: 900
+          
+        
